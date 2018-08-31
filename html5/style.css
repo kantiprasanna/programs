@@ -1,0 +1,28 @@
+    body {
+    background-color: red;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#kp {
+    width: 20vw;
+    height: 20vh;
+    /* background-color: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+
+#rj {
+    width: 20vw;
+    height: 20vh;
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
