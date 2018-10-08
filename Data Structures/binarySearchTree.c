@@ -8,10 +8,13 @@ struct node{
 
 void traverse(struct node *root);
 void insert();
-void printPreorder(struct node *root);
+void printInorder(struct node *root);
+struct node* leftLeaf(struct node *root);
+void delete();
+void f(struct node *root);
 
-struct node *root = NULL, *newNode, *temp;
-int value;
+struct node *root = NULL, *newNode, *temp, *found, *foundBefore;
+int value, deletedElement;
 
 int main(int argc, char const *argv[]){
 	int choice;
@@ -21,8 +24,8 @@ int main(int argc, char const *argv[]){
 		switch(choice){
 			case 1: insert();
 					break;
-			// case 2: delete();
-			// 		break;
+			case 2: delete();
+			 		break;
 			case 3: printInorder(root);
 					break;
 		}
@@ -65,4 +68,62 @@ void printInorder(struct node *root){
 	printInorder(root -> leftChild);	
 	printf("%d ", root -> number);	
 	printInorder(root -> rightChild);
+}
+
+void delete(){	
+	printf("Enter element to be deleted: ");
+	scanf("%d", &deletedElement);
+	if(found -> leftChild == NULL && found -> rightChild == NULL){
+		if(foundBefore -> leftChild -> number == deletedElement)
+			foundBefore -> leftChild = NULL;
+		else
+			foundBefore -> rightChild = NULL;
+	}
+	else if(found -> leftChild == NULL){
+		if(foundBefore -> leftChild -> number == deletedElement)
+			foundBefore -> leftChild = found -> rightChild;
+		else
+			foundBefore -> rightChild = found -> rightChild;
+	}
+	else if(found -> rightChild == NULL){
+		if(foundBefore -> leftChild -> number == deletedElement)
+			foundBefore -> leftChild = found -> leftChild;
+		else
+			foundBefore -> rightChild = found -> leftChild;
+	}
+	else{
+		if(foundBefore -> leftChild -> number == deletedElement){
+			foundBefore -> leftChild = found -> rightChild;
+			temp = leftLeaf(found -> rightChild);
+			temp -> leftChild = found -> rightChild;
+		}
+		else{
+			foundBefore -> rightChild = found -> rightChild;
+			temp = leftLeaf(found -> rightChild);
+			temp -> leftChild = found -> leftChild; 
+		}
+	}
+	
+}
+
+void f(struct node *root){
+	if(root -> number == deletedElement)
+		found = root;
+	else if(root -> leftChild -> number == deletedElement || root -> rightChild -> number == deletedElement)
+		foundBefore = root;
+	else if(root -> number > deletedElement && root -> rightChild != NULL)
+		f(root -> rightChild);
+	else if(root -> number < deletedElement && root -> leftChild != NULL)
+		f(root -> leftChild);
+	else 
+		return;
+}
+
+struct node* leftLeaf(struct node *root){
+	// if(root -> leftChild != NULL)
+	// 	t = leftLeaf(root -> leftChild);
+	while(root -> leftChild != NULL){
+		root = root -> leftChild;
+	}
+	return root;
 }
