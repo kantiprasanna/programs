@@ -12,6 +12,7 @@ void printInorder(struct node *root);
 struct node* leftLeaf(struct node *root);
 void delete();
 void f(struct node *root);
+void f1(struct node *root);
 
 struct node *root = NULL, *newNode, *temp, *found, *foundBefore;
 int value, deletedElement;
@@ -74,6 +75,8 @@ void delete(){
 	printf("Enter element to be deleted: ");
 	scanf("%d", &deletedElement);
 	f(root);
+	f1(root);
+	printf("found = %d, foundBefore = %d", found -> number, foundBefore -> number);
 	if(found -> leftChild == NULL && found -> rightChild == NULL){
 		if(foundBefore -> leftChild -> number == deletedElement)
 			foundBefore -> leftChild = NULL;
@@ -110,12 +113,25 @@ void delete(){
 void f(struct node *root){
 	if(root -> number == deletedElement)
 		found = root;
-	else if(root -> leftChild -> number == deletedElement || root -> rightChild -> number == deletedElement)
-		foundBefore = root;
+	// else if(root -> leftChild -> number == deletedElement || root -> rightChild -> number == deletedElement)
+	// 	foundBefore = root;
 	else if(root -> number < deletedElement && root -> rightChild != NULL)
 		f(root -> rightChild);
 	else if(root -> number > deletedElement && root -> leftChild != NULL)
 		f(root -> leftChild);
+	else 
+		return;
+}
+
+void f1(struct node *root){
+	// if(root -> number == deletedElement)
+	// 	found = root;
+	if(root -> leftChild -> number == deletedElement || root -> rightChild -> number == deletedElement)
+		foundBefore = root;
+	else if(root -> number < deletedElement && root -> rightChild != NULL)
+		f1(root -> rightChild);
+	else if(root -> number > deletedElement && root -> leftChild != NULL)
+		f1(root -> leftChild);
 	else 
 		return;
 }
